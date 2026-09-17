@@ -1,13 +1,17 @@
+import { useSessionStore } from '@/entities/session'
+import { AuthPage } from '@/pages/auth'
+import { ChatPage } from '@/pages/chat'
 import { QueryProvider } from './providers/query-provider'
+
+function Root() {
+  const credentials = useSessionStore((state) => state.credentials)
+  return credentials ? <ChatPage /> : <AuthPage />
+}
 
 export function App() {
   return (
     <QueryProvider>
-      <div className="flex h-full items-center justify-center bg-gray-50 text-gray-700">
-        <div className="text-center">
-          <h1 className="text-2xl font-semibold">MAX Chat</h1>
-        </div>
-      </div>
+      <Root />
     </QueryProvider>
   )
 }
