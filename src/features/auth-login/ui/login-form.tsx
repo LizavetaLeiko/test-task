@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react'
+import { describeError } from '@/shared/lib/errors'
 import { Button, TextInput } from '@/shared/ui'
 import { useLogin } from '../model/use-login'
 
@@ -46,7 +47,7 @@ export function LoginForm() {
 
       {login.isError && (
         <p role="alert" className="text-sm text-red-600">
-          {login.error.message}
+          {describeError(login.error)}
         </p>
       )}
 

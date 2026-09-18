@@ -27,6 +27,11 @@ export function ChatSidebar() {
       </div>
 
       <ul className="flex-1 overflow-y-auto">
+        {chats.length === 0 && (
+          <li className="px-4 py-6 text-center text-xs text-gray-400">
+            Пока нет чатов. Создайте первый по номеру телефона.
+          </li>
+        )}
         {chats.map((chat) => {
           const messages = messagesByChat[chat.chatId] ?? []
           const last = messages[messages.length - 1]

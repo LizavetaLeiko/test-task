@@ -1,8 +1,7 @@
-/// <reference types="vitest/config" />
 import { fileURLToPath } from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
+import { configDefaults, defineConfig } from 'vitest/config'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
@@ -16,6 +15,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/shared/config/test-setup.ts',
     css: true,
+    exclude: [...configDefaults.exclude, 'e2e/**'],
     coverage: {
       provider: 'v8',
       include: ['src/**/*.{ts,tsx}'],

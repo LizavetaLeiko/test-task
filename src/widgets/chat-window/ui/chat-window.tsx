@@ -2,10 +2,11 @@ import { useEffect, useRef } from 'react'
 import type { Chat } from '@/entities/chat'
 import { useChatStore } from '@/entities/chat'
 import { MessageBubble } from '@/entities/message'
-import { MessageInput } from '@/features/send-message'
+import { MessageInput, useResendMessage } from '@/features/send-message'
 
 export function ChatWindow({ chat }: { chat: Chat }) {
   const messages = useChatStore((state) => state.messagesByChat[chat.chatId]) ?? []
+  const resend = useResendMessage()
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -27,7 +28,9 @@ export function ChatWindow({ chat }: { chat: Chat }) {
             Напишите первое сообщение
           </p>
         ) : (
-          messages.map((message) => <MessageBubble key={message.id} message={message} />)
+          messages.map((message) => (
+            <MessageBubble key={message.id} message={message} onRetry={resend.mutate} />
+          ))
         )}
         <div ref={bottomRef} />
       </div>

@@ -1,7 +1,13 @@
+import { memo } from 'react'
 import { formatTime } from '@/shared/lib/datetime'
 import type { Message } from '../model/types'
 
-export function MessageBubble({ message }: { message: Message }) {
+interface MessageBubbleProps {
+  message: Message
+  onRetry?: (message: Message) => void
+}
+
+function MessageBubbleComponent({ message, onRetry }: MessageBubbleProps) {
   const isOutgoing = message.direction === 'outgoing'
 
   return (
@@ -20,10 +26,18 @@ export function MessageBubble({ message }: { message: Message }) {
           <span>{formatTime(message.timestamp)}</span>
           {isOutgoing && message.status === 'pending' && <span>…</span>}
           {isOutgoing && message.status === 'failed' && (
-            <span className="text-red-200">!</span>
+            <button
+              type="button"
+              onClick={() => onRetry?.(message)}
+              className="font-medium text-red-200 underline"
+            >
+              Не отправлено · Повторить
+            </button>
           )}
         </div>
       </div>
     </div>
   )
 }
+
+export const MessageBubble = memo(MessageBubbleComponent)
