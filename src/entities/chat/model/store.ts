@@ -11,6 +11,7 @@ interface ChatState {
   setActiveChat: (chatId: string) => void
   addMessage: (message: Message) => void
   updateMessage: (id: string, patch: Partial<Message>) => void
+  receiveMessage: (message: Message) => void
 }
 
 export const useChatStore = create<ChatState>((set, get) => ({
@@ -53,5 +54,33 @@ export const useChatStore = create<ChatState>((set, get) => ({
         )
       }
       return { messagesByChat: next }
+    }),
+
+  receiveMessage: (message) =>
+    set((state) => {
+      const chatExists = state.chats.some((chat) => chat.chatId === message.chatId)
+      const chats = chatExists
+        ? state.chats
+        : [
+            {
+              chatId: message.chatId,
+              phone: chatIdToPhone(message.chatId),
+              createdAt: Date.now(),
+            },
+            ...state.chats,
+          ]
+
+      const existing = state.messagesByChat[message.chatId] ?? []
+      if (existing.some((item) => item.id === message.id)) {
+        return { chats }
+      }
+
+      return {
+        chats,
+        messagesByChat: {
+          ...state.messagesByChat,
+          [message.chatId]: [...existing, message],
+        },
+      }
     }),
 }))

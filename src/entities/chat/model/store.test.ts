@@ -41,4 +41,33 @@ describe('chat store', () => {
     const messages = useChatStore.getState().messagesByChat[chatId] ?? []
     expect(messages[0]?.status).toBe('sent')
   })
+
+  it('receiveMessage creates the chat if it is unknown', () => {
+    const chatId = '79991234567@c.us'
+    useChatStore.getState().receiveMessage({
+      id: 'srv-1',
+      chatId,
+      text: 'reply',
+      direction: 'incoming',
+      timestamp: 1,
+    })
+
+    expect(useChatStore.getState().chats).toHaveLength(1)
+    expect(useChatStore.getState().messagesByChat[chatId] ?? []).toHaveLength(1)
+  })
+
+  it('receiveMessage ignores duplicate ids', () => {
+    const chatId = '79991234567@c.us'
+    const message = {
+      id: 'srv-1',
+      chatId,
+      text: 'reply',
+      direction: 'incoming' as const,
+      timestamp: 1,
+    }
+    useChatStore.getState().receiveMessage(message)
+    useChatStore.getState().receiveMessage(message)
+
+    expect(useChatStore.getState().messagesByChat[chatId] ?? []).toHaveLength(1)
+  })
 })
