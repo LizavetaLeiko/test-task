@@ -50,7 +50,8 @@ test('user logs in, sends a message and sees the reply', async ({ page }) => {
   await page.getByLabel('apiTokenInstance').fill('token')
   await page.getByRole('button', { name: 'Войти' }).click()
 
-  await page.getByLabel('Новый чат').fill('+7 999 123 45 67')
+  await page.getByRole('button', { name: 'Новый чат' }).click()
+  await page.getByLabel('Номер телефона').fill('+7 999 123 45 67')
   await page.getByRole('button', { name: 'Создать чат' }).click()
 
   await page.getByLabel('Сообщение').fill('Тестовое сообщение')

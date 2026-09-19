@@ -21,12 +21,18 @@ export function ChatPage() {
         </div>
       )}
       <div className="flex min-h-0 flex-1">
-        <ChatSidebar />
-        <main className="flex-1">
+        <div
+          className={`w-full shrink-0 md:block md:w-72 ${
+            activeChat ? 'hidden' : 'block'
+          }`}
+        >
+          <ChatSidebar />
+        </div>
+        <main className={`min-w-0 flex-1 md:block ${activeChat ? 'block' : 'hidden'}`}>
           {activeChat ? (
             <ChatWindow chat={activeChat} />
           ) : (
-            <div className="flex h-full items-center justify-center text-sm text-gray-400">
+            <div className="chat-bg flex h-full items-center justify-center text-sm text-gray-700">
               Выберите чат или создайте новый
             </div>
           )}

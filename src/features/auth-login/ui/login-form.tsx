@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useState } from 'react'
 import { describeError } from '@/shared/lib/errors'
 import { Button, TextInput } from '@/shared/ui'
 import { useLogin } from '../model/use-login'
@@ -10,8 +10,7 @@ export function LoginForm() {
 
   const isValid = idInstance.trim() !== '' && apiTokenInstance.trim() !== ''
 
-  const handleSubmit = (event: FormEvent) => {
-    event.preventDefault()
+  const submit = () => {
     if (!isValid) return
     login.mutate({
       idInstance: idInstance.trim(),
@@ -20,7 +19,13 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full max-w-sm flex-col gap-4">
+    <form
+      onSubmit={(event) => {
+        event.preventDefault()
+        submit()
+      }}
+      className="flex w-full max-w-sm flex-col gap-4"
+    >
       <div className="text-center">
         <h1 className="text-xl font-semibold text-gray-800">MAX Chat</h1>
         <p className="mt-1 text-sm text-gray-500">
@@ -34,11 +39,13 @@ export function LoginForm() {
         value={idInstance}
         onChange={(event) => setIdInstance(event.target.value)}
         autoComplete="off"
+        autoFocus
         placeholder="1101000001"
       />
       <TextInput
         id="apiTokenInstance"
         label="apiTokenInstance"
+        type="password"
         value={apiTokenInstance}
         onChange={(event) => setApiTokenInstance(event.target.value)}
         autoComplete="off"
@@ -54,10 +61,6 @@ export function LoginForm() {
       <Button type="submit" disabled={!isValid || login.isPending}>
         {login.isPending ? 'Проверка…' : 'Войти'}
       </Button>
-
-      <p className="text-xs text-gray-400">
-        Данные хранятся только в вашем браузере и отправляются исключительно в GREEN-API.
-      </p>
     </form>
   )
 }

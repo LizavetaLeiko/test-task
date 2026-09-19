@@ -11,7 +11,13 @@ const layers = ['app', 'pages', 'widgets', 'features', 'entities', 'shared']
 const allowedBelow = (layer) => layers.slice(layers.indexOf(layer) + 1)
 
 export default defineConfig([
-  globalIgnores(['dist', 'coverage', 'playwright-report', 'test-results']),
+  globalIgnores([
+    'dist',
+    'coverage',
+    'playwright-report',
+    'test-results',
+    'public/mockServiceWorker.js',
+  ]),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [js.configs.recommended, tseslint.configs.recommended],

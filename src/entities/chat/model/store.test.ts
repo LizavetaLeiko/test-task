@@ -22,6 +22,14 @@ describe('chat store', () => {
     expect(useChatStore.getState().chats).toHaveLength(1)
   })
 
+  it('clears the active chat', () => {
+    useChatStore.getState().createChat('79991234567')
+    expect(useChatStore.getState().activeChatId).not.toBeNull()
+
+    useChatStore.getState().clearActiveChat()
+    expect(useChatStore.getState().activeChatId).toBeNull()
+  })
+
   it('appends messages and updates them by id', () => {
     const chatId = '79991234567@c.us'
     useChatStore.getState().createChat('79991234567')

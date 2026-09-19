@@ -9,6 +9,7 @@ interface ChatState {
   activeChatId: string | null
   createChat: (phone: string) => Chat
   setActiveChat: (chatId: string) => void
+  clearActiveChat: () => void
   addMessage: (message: Message) => void
   updateMessage: (id: string, patch: Partial<Message>) => void
   receiveMessage: (message: Message) => void
@@ -36,6 +37,8 @@ export const useChatStore = create<ChatState>((set, get) => ({
   },
 
   setActiveChat: (chatId) => set({ activeChatId: chatId }),
+
+  clearActiveChat: () => set({ activeChatId: null }),
 
   addMessage: (message) =>
     set((state) => ({
