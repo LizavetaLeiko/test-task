@@ -146,3 +146,28 @@ GitHub Actions на каждый push в `main` и pull request запускае
 
 - **quality** — `typecheck → lint → format check → unit-тесты → build`
 - **e2e** — установка браузера и прогон Playwright с выгрузкой отчёта
+
+---
+
+## Скриншоты
+
+| Вход | Пустой список чатов |
+| --- | --- |
+| ![Экран входа](docs/screenshots/login.png) | ![Нет чатов](docs/screenshots/no-chats.png) |
+
+| Добавление нового чата | Переписка |
+| --- | --- |
+| ![Модалка нового чата](docs/screenshots/new-chat-modal.png) | ![Чат](docs/screenshots/chat.png) |
+
+| Ошибка отправки и повтор | Мобильный вид |
+| --- | --- |
+| ![Ошибка отправки](docs/screenshots/error.png) | ![Мобильная версия](docs/screenshots/chat-mobile.png) |
+
+
+<p align="center">
+  <em>Задание выполнили Лейко Елизавета Сергеевна и её младший помощник Булка</em>
+</p>
+<p align="center">
+  <img src="docs/screenshots/bulka.jpg" alt="Булка" width="360" />
+</p>
+
