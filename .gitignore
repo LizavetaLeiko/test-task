@@ -21,9 +21,6 @@ test-results
 .env
 .env.local
 
-# Local-only dev mock backup (not for push)
-.dev-mock-backup
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

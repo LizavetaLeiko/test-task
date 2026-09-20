@@ -37,6 +37,7 @@ export function useReceiveMessages(): ConnectionStatus {
     }
 
     const poll = async () => {
+      let failures = 0
       while (!controller.signal.aborted) {
         try {
           const notification = await receiveNotification(
@@ -44,6 +45,7 @@ export function useReceiveMessages(): ConnectionStatus {
             5,
             controller.signal,
           )
+          failures = 0
           update('online')
 
           if (!notification) {
@@ -57,7 +59,8 @@ export function useReceiveMessages(): ConnectionStatus {
           await deleteNotification(credentials, notification.receiptId, controller.signal)
         } catch {
           if (controller.signal.aborted) break
-          update('error')
+          failures += 1
+          if (failures >= 2) update('error')
           await delay(RETRY_DELAY_MS, controller.signal)
         }
       }

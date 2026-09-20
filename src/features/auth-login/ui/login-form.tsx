@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { isDemoMode, setDemoMode } from '@/mocks/control'
 import { describeError } from '@/shared/lib/errors'
 import { Button, TextInput } from '@/shared/ui'
 import { useLogin } from '../model/use-login'
@@ -6,6 +7,7 @@ import { useLogin } from '../model/use-login'
 export function LoginForm() {
   const [idInstance, setIdInstance] = useState('')
   const [apiTokenInstance, setApiTokenInstance] = useState('')
+  const [demo, setDemo] = useState(isDemoMode())
   const login = useLogin()
 
   const isValid = idInstance.trim() !== '' && apiTokenInstance.trim() !== ''
@@ -16,6 +18,16 @@ export function LoginForm() {
       idInstance: idInstance.trim(),
       apiTokenInstance: apiTokenInstance.trim(),
     })
+  }
+
+  const toggleDemo = () => {
+    const next = !demo
+    setDemo(next)
+    if (next && idInstance === '' && apiTokenInstance === '') {
+      setIdInstance('demo')
+      setApiTokenInstance('demo')
+    }
+    void setDemoMode(next)
   }
 
   return (
@@ -61,6 +73,31 @@ export function LoginForm() {
       <Button type="submit" disabled={!isValid || login.isPending}>
         {login.isPending ? 'Проверка…' : 'Войти'}
       </Button>
+
+      <div className="flex items-center justify-between gap-3 border-t border-gray-100 pt-3">
+        <span className="text-xs text-gray-500">
+          Демо-режим
+          <span className="block text-[11px] text-gray-400">
+            без реального GREEN-API, любые данные
+          </span>
+        </span>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={demo}
+          aria-label="Демо-режим"
+          onClick={toggleDemo}
+          className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${
+            demo ? 'bg-blue-500' : 'bg-gray-300'
+          }`}
+        >
+          <span
+            className={`inline-block h-4 w-4 rounded-full bg-white shadow transition-transform ${
+              demo ? 'translate-x-6' : 'translate-x-1'
+            }`}
+          />
+        </button>
+      </div>
     </form>
   )
 }
